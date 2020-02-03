@@ -1,4 +1,4 @@
-## Demo
+## Live Demo
 
 [https://heyzooi.github.io/would-you-rather](https://heyzooi.github.io/would-you-rather)
 
