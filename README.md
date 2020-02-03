@@ -1,3 +1,7 @@
+## Demo
+
+[https://heyzooi.github.io/would-you-rather](https://heyzooi.github.io/would-you-rather)
+
 ## Available Scripts
 
 In the project directory, you can run:
