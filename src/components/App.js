@@ -4,7 +4,7 @@ import LoginDialog from './LoginDialog'
 import { Navbar, Nav, Button, Figure } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { setAuthedUser } from '../actions/authedUser'
-import { Switch, Route, Redirect, useLocation } from 'react-router-dom'
+import { Switch, Route, useLocation } from 'react-router-dom'
 import NewQuestion from './NewQuestion'
 import Questions from './Questions'
 import Question from './Question'
@@ -25,7 +25,7 @@ function App({ authedUser, setAuthedUser }) {
       <Navbar bg="light" expand="lg" collapseOnSelect={true}>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto" activeKey={location.pathname === '/questions' ? '/questions' : '/add'}>
+          <Nav className="mr-auto" activeKey={location.pathname}>
             <Nav.Link href="/questions">Questions</Nav.Link>
             <Nav.Link href="/add">New Question</Nav.Link>
             <Nav.Link href="/leaderboard">Leaderboard</Nav.Link>
