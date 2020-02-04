@@ -4,7 +4,7 @@ import LoginDialog from './LoginDialog'
 import { Navbar, Nav, Button, Figure } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { setAuthedUser } from '../actions/authedUser'
-import { Switch, Route, useLocation } from 'react-router-dom'
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom'
 import NewQuestion from './NewQuestion'
 import Questions from './Questions'
 import Question from './Question'
@@ -19,16 +19,23 @@ const mapStateToProps = ({ authedUser }) => {
 
 function App({ authedUser, setAuthedUser }) {
   const location = useLocation()
+  const history = useHistory()
   return (
     <div>
       {authedUser === null && <LoginDialog/>}
       <Navbar bg="light" expand="lg" collapseOnSelect={true}>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto" activeKey={location.pathname.replace('/', '/#')}>
-            <Nav.Link href="/#questions">Questions</Nav.Link>
-            <Nav.Link href="/#add">New Question</Nav.Link>
-            <Nav.Link href="/#leaderboard">Leaderboard</Nav.Link>
+          <Nav className="mr-auto" activeKey={location.pathname}>
+            <Nav.Link onClick={() => history.push('/questions')}>
+              Questions
+            </Nav.Link>
+            <Nav.Link onClick={() => history.push('/add')}>
+              New Question
+            </Nav.Link>
+            <Nav.Link onClick={() => history.push('/leaderboard')}>
+              Leaderboard
+            </Nav.Link>
           </Nav>
           {authedUser && (
             <Nav>

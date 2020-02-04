@@ -20,7 +20,7 @@ const logger = (store) => (next) => (action) => {
 const store = createStore(rootReducer, applyMiddleware(thunk, logger))
 
 ReactDOM.render(
-    <HashRouter basename='/'>
+    <HashRouter>
         <Provider store={store}>
             <App />        
         </Provider>

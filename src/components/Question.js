@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { saveQuestionAnswer, getQuestions } from '../api'
 import { answerQuestion, questionsReceived } from '../actions/questions'
 import PageNotFound from './PageNotFound'
+import { useHistory } from 'react-router-dom'
 
 const mapStateToProps = ({ authedUser, questions }) => {
     return {
@@ -13,6 +14,7 @@ const mapStateToProps = ({ authedUser, questions }) => {
 }
 
 function Question({ questions, questionsReceived, questionId, question, authedUser, answerQuestion, showVotes, disableVoteAction, showTotalVotes }) {
+    const history = useHistory()
     useEffect(() => {
         async function fetchData() {
             const questions = await getQuestions()
@@ -56,7 +58,10 @@ function Question({ questions, questionsReceived, questionId, question, authedUs
         <Card>
             <Card.Body>
                 <Card.Title>
-                    <a href={`/#questions/${question.id}`}>Would you rather...</a>
+                    <a href="#" onClick={(e) => {
+                        e.preventDefault()
+                        history.push(`/questions/${question.id}`)
+                    }}>Would you rather...</a>
                 </Card.Title>
                 <Container className="mw-100 p-0">
                     <Row>
