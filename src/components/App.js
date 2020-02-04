@@ -9,6 +9,7 @@ import NewQuestion from './NewQuestion'
 import Questions from './Questions'
 import Question from './Question'
 import Leaderboard from './Leaderboard'
+import PageNotFound from './PageNotFound'
 
 const mapStateToProps = ({ authedUser }) => {
     return {
@@ -48,9 +49,7 @@ function App({ authedUser, setAuthedUser }) {
         }}/>
         <Route exact path="/add" component={NewQuestion}/>
         <Route exact path="/leaderboard" component={Leaderboard}/>
-        <Route>
-          <Redirect to="/questions"/>
-        </Route>
+        <Route component={PageNotFound}/>
       </Switch>
     </div>
   );
