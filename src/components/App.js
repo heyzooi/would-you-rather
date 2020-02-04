@@ -25,10 +25,10 @@ function App({ authedUser, setAuthedUser }) {
       <Navbar bg="light" expand="lg" collapseOnSelect={true}>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto" activeKey={location.pathname}>
-            <Nav.Link href="/questions">Questions</Nav.Link>
-            <Nav.Link href="/add">New Question</Nav.Link>
-            <Nav.Link href="/leaderboard">Leaderboard</Nav.Link>
+          <Nav className="mr-auto" activeKey={location.pathname.replace('/', '/#')}>
+            <Nav.Link href="/#questions">Questions</Nav.Link>
+            <Nav.Link href="/#add">New Question</Nav.Link>
+            <Nav.Link href="/#leaderboard">Leaderboard</Nav.Link>
           </Nav>
           {authedUser && (
             <Nav>

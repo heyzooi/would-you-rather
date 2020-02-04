@@ -3,6 +3,7 @@ import { Card, Button, Badge, Container, Row, Col, Spinner } from 'react-bootstr
 import { connect } from 'react-redux'
 import { saveQuestionAnswer, getQuestions } from '../api'
 import { answerQuestion, questionsReceived } from '../actions/questions'
+import PageNotFound from './PageNotFound'
 
 const mapStateToProps = ({ authedUser, questions }) => {
     return {
@@ -29,6 +30,9 @@ function Question({ questions, questionsReceived, questionId, question, authedUs
         )
     }
     question = question || questions[questionId]
+    if (!question) {
+        return <PageNotFound message="Question not found"/>
+    }
     showTotalVotes = showTotalVotes || questionId != null
     const myAnswer = authedUser && authedUser.answers && authedUser.answers[question.id]
     const answered = myAnswer != null
@@ -52,7 +56,7 @@ function Question({ questions, questionsReceived, questionId, question, authedUs
         <Card>
             <Card.Body>
                 <Card.Title>
-                    <a href={`/questions/${question.id}`}>Would you rather...</a>
+                    <a href={`/#questions/${question.id}`}>Would you rather...</a>
                 </Card.Title>
                 <Container className="mw-100 p-0">
                     <Row>

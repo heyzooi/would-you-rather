@@ -5,7 +5,7 @@ import App from './components/App'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import rootReducer from './reducers'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import thunk from 'redux-thunk';
 
 const logger = (store) => (next) => (action) => {
@@ -20,10 +20,10 @@ const logger = (store) => (next) => (action) => {
 const store = createStore(rootReducer, applyMiddleware(thunk, logger))
 
 ReactDOM.render(
-    <BrowserRouter>
+    <HashRouter>
         <Provider store={store}>
             <App />        
         </Provider>
-    </BrowserRouter>,
+    </HashRouter>,
     document.getElementById('root')
 )
