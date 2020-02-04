@@ -29,7 +29,7 @@ function Questions({authedUser, questions, questionsReceived}) {
             </div>
         )
     }
-    const questionsArray = Object.keys(questions).map(questionId => questions[questionId])
+    const questionsArray = Object.keys(questions).map(questionId => questions[questionId]).sort((question1, question2) => question2.timestamp - question1.timestamp)
     const filterQuestions = (question) => {
         if (!authedUser) {
             return false
@@ -53,7 +53,7 @@ function Questions({authedUser, questions, questionsReceived}) {
                 <ListGroup variant="flush">
                     {answeredQuestions.map(question => (
                         <ListGroup.Item key={question.id}>
-                            <Question question={question}/>
+                            <Question question={question} showTotalVotes={true}/>
                         </ListGroup.Item>
                     ))}
                 </ListGroup>

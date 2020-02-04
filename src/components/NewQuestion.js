@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Card, Button, Form, Toast } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { saveQuestion } from '../api'
@@ -15,7 +15,7 @@ function NewQuestion({ authedUser, addQuestion }) {
     const [option1, setOption1] = useState("")
     const [option2, setOption2] = useState("")
     const [displayToast, setDisplayToast] = useState(false)
-
+    let timerToken = null;
     const sendQuestion = async () => {
         const questionToBeSaved = {
             optionOneText: option1.trim(),
@@ -31,8 +31,10 @@ function NewQuestion({ authedUser, addQuestion }) {
             lastOption2: questionSaved.optionTwo.text,
         })
         setDisplayToast(true)
-        setTimeout(() => setDisplayToast(false), 1500)
+        timerToken = setTimeout(() => setDisplayToast(false), 1500)
     }
+
+    useEffect(() => clearTimeout(timerToken))
 
     const setOption = (e, setOptionState) => {
         e.preventDefault()

@@ -27,7 +27,7 @@ function LoginDialog({ authedUser, setAuthedUser }) {
     })
 
     return (
-        <Modal show={show}>
+        <Modal show={show} onHide={() => {}}>
             <Modal.Header>
                 <Modal.Title>Select a user to login</Modal.Title>
             </Modal.Header>

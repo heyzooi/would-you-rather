@@ -1,19 +1,27 @@
 import { ADD_QUESTION, QUESTIONS_RECEIVED, ANSWER_QUESTION } from '../actions/questions'
 
-export default function questions(state = null, action) {
+const LOCAL_STORAGE_QUESTIONS_KEY = 'questions'
+
+export default function questions(state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_QUESTIONS_KEY)), action) {
     switch (action.type) {
-        case QUESTIONS_RECEIVED:
-            return {
+        case QUESTIONS_RECEIVED: {
+            const questions = {
                 ...state,
                 ...action.questions
             }
-        case ADD_QUESTION:
-            return {
+            localStorage.setItem(LOCAL_STORAGE_QUESTIONS_KEY, JSON.stringify(questions))
+            return questions
+        }
+        case ADD_QUESTION: {
+            const questions = {
                 ...state,
                 [action.question.id]: action.question
             }
-        case ANSWER_QUESTION:
-            return {
+            localStorage.setItem(LOCAL_STORAGE_QUESTIONS_KEY, JSON.stringify(questions))
+            return questions
+        }
+        case ANSWER_QUESTION: {
+            const questions = {
                 ...state,
                 [action.qid]: {
                     ...state[action.qid],
@@ -23,6 +31,9 @@ export default function questions(state = null, action) {
                     }
                 }
             }
+            localStorage.setItem(LOCAL_STORAGE_QUESTIONS_KEY, JSON.stringify(questions))
+            return questions
+        }
         default:
             return state
     }

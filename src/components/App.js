@@ -4,9 +4,11 @@ import LoginDialog from './LoginDialog'
 import { Navbar, Nav, Button, Figure } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { setAuthedUser } from '../actions/authedUser'
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
+import { Switch, Route, Redirect, useLocation } from 'react-router-dom'
 import NewQuestion from './NewQuestion'
-import Questions  from './Questions'
+import Questions from './Questions'
+import Question from './Question'
+import Leaderboard from './Leaderboard'
 
 const mapStateToProps = ({ authedUser }) => {
     return {
@@ -15,16 +17,17 @@ const mapStateToProps = ({ authedUser }) => {
 }
 
 function App({ authedUser, setAuthedUser }) {
-  const historyLocation = useHistory().location
+  const location = useLocation()
   return (
     <div>
       {authedUser === null && <LoginDialog/>}
       <Navbar bg="light" expand="lg" collapseOnSelect={true}>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto" activeKey={historyLocation.pathname === '/questions' ? '/#questions' : '/#new-question'}>
-            <Nav.Link href="/#questions">Questions</Nav.Link>
-            <Nav.Link href="/#new-question">New Question</Nav.Link>
+          <Nav className="mr-auto" activeKey={location.pathname === '/questions' ? '/questions' : '/add'}>
+            <Nav.Link href="/questions">Questions</Nav.Link>
+            <Nav.Link href="/add">New Question</Nav.Link>
+            <Nav.Link href="/leaderboard">Leaderboard</Nav.Link>
           </Nav>
           {authedUser && (
             <Nav>
@@ -39,7 +42,12 @@ function App({ authedUser, setAuthedUser }) {
       </Navbar>
       <Switch>
         <Route exact path="/questions" component={Questions}/>
-        <Route exact path="/new-question" component={NewQuestion}/>
+        <Route exact path="/questions/:id" render={({ match }) => {
+          const { id } = match.params
+          return <Question questionId={id}/>
+        }}/>
+        <Route exact path="/add" component={NewQuestion}/>
+        <Route exact path="/leaderboard" component={Leaderboard}/>
         <Route>
           <Redirect to="/questions"/>
         </Route>
