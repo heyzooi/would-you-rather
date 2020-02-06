@@ -3,23 +3,24 @@ import { Modal, Button, Spinner, ListGroup, Figure } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { getUsers } from '../api'
 import { setAuthedUser } from '../actions/authedUser'
+import { usersReceived } from '../actions/users'
 
-const mapStateToProps = ({ authedUser }) => {
+const mapStateToProps = ({ authedUser, users }) => {
     return {
-        authedUser
+        authedUser,
+        users,
     }
 }
 
-function LoginDialog({ authedUser, setAuthedUser }) {
+function LoginDialog({ authedUser, setAuthedUser, users, usersReceived }) {
     
     const show = authedUser === null
-    const [users, setUsers] = useState(null)
     const [selectedUser, setSelectedUser] = useState(null)
 
     useEffect(() => {
         async function fetchData() {
             const users = await getUsers()
-            setUsers(users)
+            usersReceived(users)
         }
         if (!users) {
             fetchData()
@@ -53,4 +54,4 @@ function LoginDialog({ authedUser, setAuthedUser }) {
     )
 }
 
-export default connect(mapStateToProps, { setAuthedUser })(LoginDialog)
+export default connect(mapStateToProps, { setAuthedUser, usersReceived })(LoginDialog)

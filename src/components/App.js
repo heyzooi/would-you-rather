@@ -52,7 +52,7 @@ function App({ authedUser, setAuthedUser }) {
         <Route exact path="/questions" component={Questions}/>
         <Route exact path="/questions/:id" render={({ match }) => {
           const { id } = match.params
-          return <Question questionId={id}/>
+          return <Question questionId={id} showVotes={true} disableVoteAction={true} showTotalVotes={true} showAuthor={true}/>
         }}/>
         <Route exact path="/add" component={NewQuestion}/>
         <Route exact path="/leaderboard" component={Leaderboard}/>

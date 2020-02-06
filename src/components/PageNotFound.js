@@ -1,15 +1,28 @@
 import React from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import { connect } from 'react-redux'
 
-export default function PageNotFound({ message }) {
-    return (
-        <Container className="text-center">
-            <Row>
-                <Col>404</Col>
-            </Row>
-            <Row>
-                <Col>{message || 'Page not found'}</Col>
-            </Row>
-        </Container>
-    )
+const mapStateToProps = ({ authedUser }) => {
+    return {
+        authedUser
+    }
 }
+
+function PageNotFound({ authedUser, message }) {
+    if (authedUser) {
+        return (
+            <div className="text-center" style={{
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%)'
+            }}>
+                <h1>404</h1>
+                <h1>{message || 'Page not found'}</h1>
+            </div>
+        )
+    } else {
+        return <div></div>
+    }
+}
+
+export default connect(mapStateToProps)(PageNotFound)

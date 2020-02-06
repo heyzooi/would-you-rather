@@ -35,7 +35,7 @@ function Leaderboard({ questions, questionsReceived }) {
         <ListGroup variant="flush">
             {questionsArray.map(question => (
                 <ListGroup.Item key={question.id}>
-                    <Question question={question} showVotes={true} disableVoteAction={true} showTotalVotes={true}/>
+                    <Question question={question} showVotes={true} disableVoteAction={true} showTotalVotes={true} showAuthor={true}/>
                 </ListGroup.Item>
             ))}
         </ListGroup>
