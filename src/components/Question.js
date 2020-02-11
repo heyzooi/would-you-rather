@@ -32,7 +32,7 @@ function Question({ questions, questionsReceived, questionId, question, authedUs
         )
     }
     question = question || questions[questionId]
-    if (!question) {
+    if (!authedUser || !question) {
         return <PageNotFound message="Question not found"/>
     }
     const myAnswer = authedUser && authedUser.answers && authedUser.answers[question.id]
