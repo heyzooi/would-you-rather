@@ -1,45 +1,63 @@
-import React, { useEffect } from 'react'
-import { getQuestions }  from '../api'
-import { ListGroup, Spinner } from 'react-bootstrap'
+import React, { useEffect, Fragment } from 'react'
+import { getUsers }  from '../api'
+import { ListGroup, Spinner, Figure } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { questionsReceived } from '../actions/questions'
-import Question from './Question'
+import { usersReceived } from '../actions/users'
 
-const mapStateToProps = ({ questions }) => {
+const mapStateToProps = ({ users }) => {
     return {
-        questions,
+        users
     }
 }
 
-function Leaderboard({ questions, questionsReceived }) {
+function UserProfile({ user }) {
+    const questions = user.questions.length
+    const answers = Object.keys(user.answers).length
+    const totalVotes = questions + answers
+    return (
+        <Fragment>
+            <Figure.Image width={50} height={50} src={user.avatarURL} roundedCircle thumbnail className="mr-2"/>
+            {user.name} ({user.id})
+            <br/>
+            Total Votes: {totalVotes}
+            <br/>
+            Questions: {questions}
+            <br/>
+            Answers: {answers}
+        </Fragment>
+    )
+}
+
+function Leaderboard({ users, usersReceived }) {
     useEffect(() => {
         async function fetchData() {
-            const questions = await getQuestions()
-            questionsReceived(questions)
+            const questions = await getUsers()
+            usersReceived(questions)
         }
-        if (questions === null) {
+        if (users === null) {
             fetchData()
         }
     })
-    if (questions == null) {
+    if (users == null) {
         return (
             <div className="text-center mt-4">
                 <Spinner animation="border"/>
             </div>
         )
     }
-    const questionsArray = Object.keys(questions).map(questionId => questions[questionId])
-        .sort((question1, question2) => question2.timestamp - question1.timestamp)
-        .sort((question1, question2) => (question2.optionOne.votes.length + question2.optionTwo.votes.length) - (question1.optionOne.votes.length + question1.optionTwo.votes.length))
+    const usersArray = Object.keys(users).map(userId => users[userId])
+        .sort((user1, user2) => {
+            return (Object.keys(user2.answers).length + user2.questions.length) - (Object.keys(user1.answers).length + user1.questions.length)
+        })
     return (
         <ListGroup variant="flush">
-            {questionsArray.map(question => (
-                <ListGroup.Item key={question.id}>
-                    <Question question={question} showVotes={true} disableVoteAction={true} showTotalVotes={true} showAuthor={true}/>
+            {usersArray.map(user => (
+                <ListGroup.Item key={user.id}>
+                    <UserProfile user={user}/>
                 </ListGroup.Item>
             ))}
         </ListGroup>
     )
 }
 
-export default connect(mapStateToProps, { questionsReceived })(Leaderboard)
+export default connect(mapStateToProps, { usersReceived })(Leaderboard)

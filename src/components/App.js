@@ -27,13 +27,19 @@ function App({ authedUser, setAuthedUser }) {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto" activeKey={location.pathname}>
-            <Nav.Link onClick={() => history.push('/questions')}>
+            <Nav.Link onClick={() => {
+              if (history.location.pathname !== '/questions') history.push('/questions')
+            }}>
               Questions
             </Nav.Link>
-            <Nav.Link onClick={() => history.push('/add')}>
+            <Nav.Link onClick={() => {
+              if (history.location.pathname !== '/add') history.push('/add')
+            }}>
               New Question
             </Nav.Link>
-            <Nav.Link onClick={() => history.push('/leaderboard')}>
+            <Nav.Link onClick={() => {
+              if (history.location.pathname !== '/leaderboard') history.push('/leaderboard')
+            }}>
               Leaderboard
             </Nav.Link>
           </Nav>

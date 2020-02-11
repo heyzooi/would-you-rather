@@ -1,20 +1,19 @@
-import React, { useEffect, Fragment } from 'react'
-import { Card, Button, Badge, Container, Row, Col, Spinner, Figure } from 'react-bootstrap'
+import React, { useEffect } from 'react'
+import { Card, Button, Badge, Container, Row, Col, Spinner } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { saveQuestionAnswer, getQuestions } from '../api'
 import { answerQuestion, questionsReceived } from '../actions/questions'
 import PageNotFound from './PageNotFound'
 import { useHistory } from 'react-router-dom'
 
-const mapStateToProps = ({ authedUser, questions, users }) => {
+const mapStateToProps = ({ authedUser, questions }) => {
     return {
         authedUser,
         questions,
-        users,
     }
 }
 
-function Question({ users, questions, questionsReceived, questionId, question, authedUser, answerQuestion, showVotes, disableVoteAction, showTotalVotes, showAuthor }) {
+function Question({ questions, questionsReceived, questionId, question, authedUser, answerQuestion, showVotes, disableVoteAction }) {
     const history = useHistory()
     useEffect(() => {
         async function fetchData() {
@@ -36,11 +35,9 @@ function Question({ users, questions, questionsReceived, questionId, question, a
     if (!question) {
         return <PageNotFound message="Question not found"/>
     }
-    showTotalVotes = showTotalVotes || questionId != null
     const myAnswer = authedUser && authedUser.answers && authedUser.answers[question.id]
     const answered = myAnswer != null
     const totalVotes = question.optionOne.votes.length + question.optionTwo.votes.length
-    const user = users && users[question.author]
     const formatVotes = (nVotes) => {
         switch (nVotes) {
             case 0: return 'no votes'
@@ -86,17 +83,6 @@ function Question({ users, questions, questionsReceived, questionId, question, a
                             {(showVotes || answered) && <span className="ml-3">{Math.round((question.optionTwo.votes.length / totalVotes) * 100)}% ({formatVotes(question.optionTwo.votes.length)})</span>}
                             {myAnswer && myAnswer === 'optionTwo' && <Badge variant="secondary" className="ml-2">my vote</Badge>}
                         </Col>
-                        {showTotalVotes && (
-                            <Col sm={4}>
-                                {user && (
-                                    <Fragment>
-                                        <h1>{<Figure.Image width={50} height={50} src={user.avatarURL} roundedCircle thumbnail className="mr-2"/>}{user && user.name}</h1>
-                                        <h6>{user.id}</h6>
-                                    </Fragment>
-                                )}
-                                <h1>{(showVotes || answered) && formatVotes(totalVotes)}</h1>
-                            </Col>
-                        )}
                     </Row>
                 </Container>
             </Card.Body>
