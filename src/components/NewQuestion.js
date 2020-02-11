@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Redirect } from 'react-router-dom'
 import { Container, Row, Col, Card, Button, Form, Toast } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { saveQuestion } from '../api'
@@ -15,6 +16,7 @@ function NewQuestion({ authedUser, addQuestion }) {
     const [option1, setOption1] = useState("")
     const [option2, setOption2] = useState("")
     const [displayToast, setDisplayToast] = useState(false)
+    const [timeToRedirect, setTimeToRedirect] = useState(false)
     let timerToken = null;
     const sendQuestion = async () => {
         const questionToBeSaved = {
@@ -31,7 +33,10 @@ function NewQuestion({ authedUser, addQuestion }) {
             lastOption2: questionSaved.optionTwo.text,
         })
         setDisplayToast(true)
-        timerToken = setTimeout(() => setDisplayToast(false), 1500)
+        timerToken = setTimeout(() => {
+            setDisplayToast(false)
+            setTimeToRedirect(true)
+        }, 1500)
     }
 
     useEffect(() => clearTimeout(timerToken))
@@ -39,6 +44,10 @@ function NewQuestion({ authedUser, addQuestion }) {
     const setOption = (e, setOptionState) => {
         e.preventDefault()
         setOptionState(e.target.value)
+    }
+
+    if (timeToRedirect) {
+        return <Redirect to='/questions'/>
     }
 
     return (

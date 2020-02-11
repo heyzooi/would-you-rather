@@ -13,7 +13,7 @@ const mapStateToProps = ({ authedUser, questions }) => {
     }
 }
 
-function Question({ questions, questionsReceived, questionId, question, authedUser, answerQuestion, showVotes, disableVoteAction }) {
+function Question({ questions, questionsReceived, questionId, question, authedUser, answerQuestion, showTotalVotes }) {
     const history = useHistory()
     useEffect(() => {
         async function fetchData() {
@@ -71,16 +71,16 @@ function Question({ questions, questionsReceived, questionId, question, authedUs
                 <Container className="mw-100 p-0">
                     <Row>
                         <Col sm={8}>
-                            <Button disabled={disableVoteAction || answered} onClick={() => sendAnswerQuestion('optionOne')}>
+                            <Button disabled={answered} onClick={() => sendAnswerQuestion('optionOne')}>
                                 {question.optionOne.text}
                             </Button>
-                            {(showVotes || answered) && <span className="ml-3">{Math.round((question.optionOne.votes.length / totalVotes) * 100)}% ({formatVotes(question.optionOne.votes.length)})</span>}
+                            {(answered && showTotalVotes) && <span className="ml-3">{Math.round((question.optionOne.votes.length / totalVotes) * 100)}% ({formatVotes(question.optionOne.votes.length)})</span>}
                             {myAnswer && myAnswer === 'optionOne' && <Badge variant="secondary" className="ml-2">my vote</Badge>}
                             <Card.Text className="mt-3">OR</Card.Text>
-                            <Button disabled={disableVoteAction || answered} onClick={() => sendAnswerQuestion('optionTwo')}>
+                            <Button disabled={answered} onClick={() => sendAnswerQuestion('optionTwo')}>
                                 {question.optionTwo.text}
                             </Button>
-                            {(showVotes || answered) && <span className="ml-3">{Math.round((question.optionTwo.votes.length / totalVotes) * 100)}% ({formatVotes(question.optionTwo.votes.length)})</span>}
+                            {(answered && showTotalVotes) && <span className="ml-3">{Math.round((question.optionTwo.votes.length / totalVotes) * 100)}% ({formatVotes(question.optionTwo.votes.length)})</span>}
                             {myAnswer && myAnswer === 'optionTwo' && <Badge variant="secondary" className="ml-2">my vote</Badge>}
                         </Col>
                     </Row>

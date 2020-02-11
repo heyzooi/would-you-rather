@@ -53,7 +53,7 @@ function Questions({authedUser, questions, questionsReceived}) {
                 <ListGroup variant="flush">
                     {answeredQuestions.map(question => (
                         <ListGroup.Item key={question.id}>
-                            <Question question={question} showTotalVotes={true}/>
+                            <Question question={question} showTotalVotes={false}/>
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
