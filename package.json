@@ -41,6 +41,6 @@
   },
   "homepage": "https://heyzooi.github.io/would-you-rather",
   "devDependencies": {
-    "gh-pages": "^2.2.0"
+    "gh-pages": "^5.0.0"
   }
 }
